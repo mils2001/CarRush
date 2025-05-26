@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: carrush-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Awilo9701@
+      MYSQL_DATABASE: carrushdb
+    ports:
+      - "3306:3306"
+    networks:
+      - carrush-net
+
+  backend:
+    build:
+      context: .
+    container_name: carrush-backend
+    depends_on:
+      - mysql
+    ports:
+      - "5000:5000"
+    networks:
+      - carrush-net
+    environment:
+      # Optional: add env vars if needed for better config management
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: Awilo9701@
+      DB_NAME: carrushdb
+
+networks:
+  carrush-net:
+
